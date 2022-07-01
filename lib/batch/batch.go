@@ -2,6 +2,7 @@ package batch
 
 import (
 	"time"
+	"sync"
 )
 
 type user struct {
@@ -20,7 +21,7 @@ func getBatch(n int64, pool int64) (res []user) {
 	sem := make(chan struct{}, pool)
 	for i := 0; i < n; i++ {
 		wg.Add(1)
-		go func(i int) {
+		go func(i int64) {
 			sem <- struct{}{}
 			user := getOne(i)
 			res = append(res, user)
