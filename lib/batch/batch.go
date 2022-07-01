@@ -16,14 +16,14 @@ func getOne(id int64) user {
 
 func getBatch(n int64, pool int64) (res []user) {
 	var wg sync.WaitGroup
-
+	res = make([]user, n)
 	sem := make(chan struct{}, pool)
 	for i := int64(0); i < n; i++ {
 		wg.Add(1)
 		sem <- struct{}{}
 		go func(i int64) {	
 			user := getOne(i)
-			res = append(res, user)
+			res[i] = user
 			<-sem
 			wg.Done()
 		}(i)
