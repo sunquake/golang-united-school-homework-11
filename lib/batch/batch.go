@@ -15,7 +15,6 @@ func getOne(id int64) user {
 }
 
 func getBatch(n int64, pool int64) (res []user) {
-	//if n==0 || pool==0 {return}
 	var wg sync.WaitGroup
 
 	sem := make(chan struct{}, pool)
